@@ -5,12 +5,12 @@ This workshop will walk you through getting started with using AI to assist in t
 ## 🎓 Learning Outcomes
 
 - Where AI fits in the Software Development Life Cycle
-- Use AI assistant to explain unknown code
-- Use AI assistant to refactor code
-- Use AI assistant to document code
-- Use AI assistant to write tests
-- Use AI assistant to create code based on comment
-- Use AI assistant type ahead while coding
+- Utilizing an AI Coding Assistant to:
+  - Get explaination of unknown code using chat
+  - Fix code using chat
+  - Add documentation for selected code
+  - Generate tests for selected code
+  - Generate code using type ahead and natural language prompts
 
 ## 🥞 Tech Stack
 
@@ -30,7 +30,16 @@ This workshop will walk you through getting started with using AI to assist in t
 
 ## 📓 Curriculum
 
-Coming Soon!
+- [Part 0: AI in the Software Development Life Cycle](workshop/part-0.md)
+- [Part 1: Getting started with Tabnine](workshop/part-1.md)
+- [Part 2: Welcome to _Fake Company Name_ **OR** Your mission, should you choose to accept it.](workshop/part-2.md)
+- [Part 3: The Dominos CLI stack](workshop/part-3.md)
+- [Part 4: Task 1](workshop/part-4.md)
+- [Part 5: Task 2](workshop/part-5.md)
+- [Part 6: Task 3](workshop/part-6.md)
+- [Part 7: Task 4](workshop/part-7.md)
+- [Part 8: Task 5](workshop/part-8.md)
+- [Part 9: Next Steps](workshop/part-9.md)
 
 ## 📝 License
 
