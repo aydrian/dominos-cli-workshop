@@ -57,8 +57,17 @@
       "hello": {
         "description": "Say hello to the world and others"
       },
+      "order": {
+        "description": "Order pizza from Domino's 🍕"
+      },
       "profile": {
         "description": "Manage your Dominos profile"
+      },
+      "store": {
+        "description": "Manage your favorite Dominos store"
+      },
+      "track": {
+        "description": "Track your Dominos orders"
       }
     }
   },
@@ -72,6 +81,7 @@
     "prepack": "npm run build && oclif manifest && oclif readme",
     "prepare": "npm run build",
     "test": "vitest",
+    "typecheck": "tsc",
     "version": "oclif readme && git add README.md"
   },
   "version": "0.0.0",

@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
-import {checkbox, confirm, select} from '@inquirer/prompts'
+import {checkbox, confirm, input, select} from '@inquirer/prompts'
 import {Command, ux} from '@oclif/core'
-import {Order as DominosOrder, Item} from 'dominos'
+import {AmountsBreakdown, Order as DominosOrder, Item, Payment} from 'dominos'
 
 import {ConfigAPI} from '../../lib/config.js'
 import {crusts, sauces, toppings} from '../../lib/pizza.js'
@@ -10,6 +10,11 @@ export default class Order extends Command {
   static description = 'describe the command here'
 
   static examples = ['<%= config.bin %> <%= command.id %>']
+
+  printPrice(amountsBreakdown: AmountsBreakdown) {
+    const {customer} = amountsBreakdown
+    return `Your order will cost ${customer.toFixed(2)} dollars`
+  }
 
   public async run(): Promise<void> {
     const configAPI = new ConfigAPI(this.config.configDir)
@@ -93,15 +98,68 @@ export default class Order extends Command {
       })
     }
 
+    ux.action.start('Validating your order...')
     await order.validate()
-    // await order.price()
-    // const price = order.amountsBreakdown.customer
+    await order.price()
 
-    // this.log(`Your order will cost ${price.toFixed(2)} dollars`)
+    this.log(this.printPrice(order.amountsBreakdown))
+    ux.action.stop()
 
-    console.dir(order)
+    // console.dir(order.amountsBreakdown)
+    this.log('How would you like to pay?')
 
-    // eslint-disable-next-line no-warning-comments
-    // TODO: prompt for payment and submit order
+    const paymentInput = {
+      number: await input({message: 'What is your card number?'}),
+      expiration: await input({message: 'What is your card expiration?'}),
+      securityCode: await input({message: 'What is your card security code?'}),
+      postalCode: await input({message: 'What is your card postal code?'}),
+    }
+
+    const payment = new Payment({...paymentInput, amount: order.amountsBreakdown.customer})
+
+    const addTip = await confirm({message: 'Would you like to add a tip?', default: true})
+    if (addTip) {
+      const fifteenPercentTip = order.amountsBreakdown.customer * 0.15
+      const eighteenPercentTip = order.amountsBreakdown.customer * 0.18
+      const twentyPercentTip = order.amountsBreakdown.customer * 0.2
+      let tipAmount = await select({
+        message: 'How much would you like to tip?',
+        choices: [
+          {name: `15% (${fifteenPercentTip})`, value: fifteenPercentTip.toFixed(2)},
+          {name: `18% (${eighteenPercentTip})`, value: eighteenPercentTip.toFixed(2)},
+          {name: `20% (${twentyPercentTip})`, value: twentyPercentTip.toFixed(2)},
+          {name: 'other', value: 'other'},
+        ],
+      })
+      if (tipAmount === 'other') {
+        tipAmount = await input({message: 'How much would you like to tip?'})
+      }
+
+      payment.tipAmount = Number.parseFloat(tipAmount)
+    }
+
+    order.payments.push(payment)
+
+    const ready = await confirm({message: 'Would you like to place your order?', default: false})
+
+    if (ready) {
+      ux.action.start('Placing your order...')
+      try {
+        await order.place()
+      } catch (error) {
+        console.trace(error)
+
+        // inspect Order Response to see more information about the
+        // failure, unless you added a real card, then you can inspect
+        // the order itself
+        console.log('\n\nFailed Order Probably Bad Card, here is order.priceResponse the raw response from Dominos\n\n')
+        console.dir(order.placeResponse, {depth: 5})
+      }
+
+      ux.action.stop()
+
+      this.log(`Your order has been placed! Your order number is ${order.orderID}`)
+      this.log('Your order has been placed! You may track your order using `dominos track`')
+    }
   }
 }

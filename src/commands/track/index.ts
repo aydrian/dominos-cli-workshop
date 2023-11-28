@@ -1,5 +1,5 @@
 import {Command, Flags, ux} from '@oclif/core'
-import {Tracking} from 'dominos'
+import {ITrackingResult, Tracking} from 'dominos'
 
 import {ConfigAPI} from '../../lib/config.js'
 
@@ -15,7 +15,7 @@ export default class TrackIndex extends Command {
   public async run(): Promise<void> {
     const {flags} = await this.parse(TrackIndex)
     const tracking = new Tracking()
-    let trackingResult: Tracking
+    let trackingResult: ITrackingResult
 
     if (flags.phone) {
       ux.action.start('Tracking order with phone number: ' + flags.phone)
@@ -32,6 +32,10 @@ export default class TrackIndex extends Command {
     }
 
     ux.action.stop()
+
+    this.log(`Your order number is ${trackingResult.orderID}
+    ${trackingResult.orderDescription}
+    Status: ${trackingResult.orderStatus}`)
 
     console.dir(trackingResult)
   }

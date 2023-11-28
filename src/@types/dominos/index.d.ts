@@ -709,6 +709,15 @@ declare module 'dominos' {
   }
 
   /**
+   * Tracking Result
+   */
+  interface ITrackingResult {
+    orderDescription: string
+    orderID: string
+    orderStatus: string
+  }
+
+  /**
    * Tracking
    */
 
@@ -720,22 +729,22 @@ declare module 'dominos' {
     /**
      * Fetches all trackable orders for a given phone number.
      */
-    public byPhone: (phone: PhoneType) => Promise<this>
+    public byPhone: (phone: PhoneType) => Promise<ITrackingResult>
 
     /**
      * Implementation which fetches a SOAP response. This is still used in places like Canada.
      */
-    public byPhoneClassic: (phone: PhoneType) => Promise<this>
+    public byPhoneClassic: (phone: PhoneType) => Promise<ITrackingResult>
 
     /**
      * Fetches a specific order's tracking info from a specific store.
      */
-    public byId: (storeID: StoreIDType, orderKey: OrderKeyType) => Promise<this>
+    public byId: (storeID: StoreIDType, orderKey: OrderKeyType) => Promise<ITrackingResult>
 
     /**
      * Fetches all orders for a specific URL query.
      */
-    public byUrl: (url: URL) => Promise<this>
+    public byUrl: (url: URL) => Promise<ITrackingResult>
   }
 
   /**
