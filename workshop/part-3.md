@@ -1,6 +1,6 @@
-# Part 3: The Domino's CLI stack
+# Part 3: Getting started with Tabnine
 
 ## TBD
 
-| [Back](part-2.md) | [Next](part-4.md) |
+| [Back](part-0.md) | [Next](part-2.md) |
 | ----------------- | ----------------- |

@@ -1,6 +1,63 @@
-# Part 2: Welcome to _Fake Company Name_ **OR** Your mission, should you choose to accept it.
+# Part 2: Onboarding
 
-## TBD
+![Hello Computer](https://media.giphy.com/media/PxSFAnuubLkSA/giphy.gif)
 
-| [Back](part-1.md) | [Next](part-3.md) |
+## 💻 Your Development Environment
+
+We thank you for providing your own laptop for this project. Please have the following installed on your machine.
+
+- Git
+- Node.js 18+ with npm
+- Your choice of the following IDEs:
+  - Visual Studio
+  - Visual Studio Code
+  - WebStorm
+  - NeoVim (if you're feeling dangerous)
+- Access to your GitHub account
+
+## 📥 Download the code
+
+Now that we have our environment set up, let's clone the repository and make sure it's working properly.
+
+- In your terminal, clone this GitHub repository to a directory of your choosing
+  ```shell
+  git clone git@github.com:aydrian/dominos-cli-workshop.git
+  ```
+- Change directories to the dominos-cli-workshop directory and install the dependencies
+  ```shell
+  cd dominos-cli-workshop
+  npm install
+  ```
+- Run the tests to make sure everything is working properly
+  ```shell
+  npm run test
+  ```
+
+You're now ready to start developing
+
+## 🔨 Application Layout
+
+This application was created using the OCLIF Generator. We'll mostly be working in the `/src` directory. The code for the different commands exist in the `/src/commands` directory. Tests are co-located with the files they are testing and have the `.test.ts` extension. The `/src/lib` directory contains the file responsible for reading and writing the config file used to persist user configuration.
+
+Don't worry, each exercise will point you to the file you need to modify.
+
+## ▶️ Run the CLI
+
+Let's run the application for the first time. There are two ways to run the application. You build and run it using `npm run build && ./bin/run.js` (`run.cmd` for Windows users) or run it in dev mode using `./bin/dev.js` (`dev.cmd` for Windows users).
+
+Let's run the profile command. In your terminal from the project root directory execute the following:
+
+```shell
+npm run build && ./bin/run.js profile
+```
+
+Because this is the first time running the command, you will be prompted to fill out your user profile.
+
+TODO: Animated Gif of completing the profile
+
+Now, if you run the command again, you will see your profile displayed.
+
+**We're almost ready to dive into the tasks, but first we'll install a plugin to help accelerate the process.**
+
+| [Back](part-2.md) | [Next](part-4.md) |
 | ----------------- | ----------------- |

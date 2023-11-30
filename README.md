@@ -31,9 +31,9 @@ This workshop will walk you through getting started with using AI to assist in t
 ## 📓 Curriculum
 
 - [Part 0: AI in the Software Development Life Cycle](workshop/part-0.md)
-- [Part 1: Getting started with Tabnine](workshop/part-1.md)
-- [Part 2: Welcome to _Fake Company Name_ **OR** Your mission, should you choose to accept it.](workshop/part-2.md)
-- [Part 3: The Dominos CLI stack](workshop/part-3.md)
+- [Part 1: Welcome to _Fake Company Name_ **OR** Your mission, should you choose to accept it.](workshop/part-1.md)
+- [Part 2: Onboarding](workshop/part-2.md)
+- [Part 3: Getting started with Tabnine](workshop/part-3.md)
 - [Part 4: Task 1](workshop/part-4.md)
 - [Part 5: Task 2](workshop/part-5.md)
 - [Part 6: Task 3](workshop/part-6.md)
