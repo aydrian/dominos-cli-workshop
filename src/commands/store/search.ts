@@ -1,6 +1,7 @@
-import {select} from '@inquirer/prompts'
 import {Command, Flags, ux} from '@oclif/core'
 import {NearbyStores} from 'dominos'
+// eslint-disable-next-line import/no-named-as-default
+import prompts from 'prompts'
 
 import {ConfigAPI} from '../../lib/config.js'
 
@@ -11,6 +12,22 @@ export default class Search extends Command {
 
   static flags = {
     zip: Flags.string({char: 'z', description: 'zip code to search for'}),
+  }
+
+  public async getFavoriteStoreFromPrompt(nearbyStores: NearbyStores): Promise<string> {
+    const storeChoices = nearbyStores.stores.map((store) => ({
+      title: store.AddressDescription,
+      value: store.StoreID,
+    }))
+
+    const response = await prompts({
+      type: 'select',
+      name: 'store',
+      message: 'Which store would you like to favorite?',
+      choices: storeChoices,
+    })
+
+    return response.store
   }
 
   public async run(): Promise<void> {
@@ -34,13 +51,7 @@ export default class Search extends Command {
 
     ux.action.stop()
 
-    const favoriteStoreId = await select({
-      message: 'Which store would you like to favorite?',
-      choices: nearbyStores.stores.map((store) => ({
-        name: store.AddressDescription,
-        value: store.StoreID,
-      })),
-    })
+    const favoriteStoreId = await this.getFavoriteStoreFromPrompt(nearbyStores)
 
     ux.action.start('Saving your favorite store...')
     configAPI.updateFavoriteStore(favoriteStoreId.toString())

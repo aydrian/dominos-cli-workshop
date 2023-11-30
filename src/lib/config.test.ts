@@ -86,13 +86,4 @@ describe('Config API', () => {
     configAPI.writeConfig()
     expect(vi.mocked(fs.writeFileSync)).toHaveBeenLastCalledWith('test', '{}', {encoding: 'utf8'})
   })
-
-  // it('writeConfig() should throw an error if the file cannot be written', async () => {
-  //   const wError = new Error('Something went wrong')
-  //   vi.mocked(fs.writeFileSync).mockRejectedValue(wError)
-  //   readConfig.mockImplementation(() => ({}))
-  //   const configAPI = new ConfigAPI('test')
-
-  //   expect(() => configAPI.writeConfig()).toThrowError(wError)
-  // })
 })

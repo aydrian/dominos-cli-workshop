@@ -17,7 +17,7 @@ This workshop will walk you through getting started with using AI to assist in t
 - Language - 🟦 [TypeScript](https://www.typescriptlang.org/)
 - CLI Framework - 🖥️ [oclif](https://oclif.io/)
 - Testing Framework - ⚡️ [Vitest](https://vitest.dev)
-- Prompts - ❓ [Inquirer.js](https://github.com/SBoudrias/Inquirer.js)
+- Prompts - ❓ [>Prompts](https://github.com/terkelg/prompts)
 - Styling - 🖍️ [Chalk](https://github.com/chalk/chalk)
 
 ## ⚠️ Requirements

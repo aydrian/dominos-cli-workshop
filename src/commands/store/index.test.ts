@@ -18,9 +18,16 @@ describe('Store', () => {
   })
 
   it('should display message if no favorite store is set', async () => {
+    getFavoriteStore.mockImplementation(async () => null)
+
     await Store.run()
 
     expect(log).toHaveBeenCalledWith('You have not set up a favorite store yet.')
+    await Store.run()
+
+    expect(getFavoriteStore).toReturnWith(null)
+
+    expect(log).toHaveBeenCalled()
   })
 
   it('should display the favorite store if it exists', async () => {
@@ -39,6 +46,8 @@ describe('Store', () => {
     getFavoriteStore.mockResolvedValue(favoriteStore)
 
     await Store.run()
+
+    expect(await favoriteStore).to.not.be.null
 
     expect(log).toHaveBeenNthCalledWith(1, `Your favorite store is Store #${favoriteStore.info.StoreID}`)
     expect(log).toHaveBeenNthCalledWith(

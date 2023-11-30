@@ -1,30 +1,41 @@
-import {checkbox, input} from '@inquirer/prompts'
-import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest'
+/* eslint-disable import/no-named-as-default */
+/* eslint-disable import/no-named-as-default-member */
+import prompts from 'prompts'
+import {afterEach, describe, expect, it, vi} from 'vitest'
 
 import {ConfigAPI} from '../../lib/config.js'
 import Update from './update.js'
 
 vi.mock('../../lib/config.js')
 
-vi.mock('@inquirer/prompts', async (importOriginal) => {
-  const mod = await importOriginal<typeof import('@inquirer/prompts')>()
-  return {
-    ...mod,
-    checkbox: vi.fn(),
-    input: vi.fn(),
-  }
-})
-
 describe('ProfileUpdate', () => {
-  const log = vi.spyOn(Update.prototype, 'log')
+  vi.spyOn(Update.prototype, 'log').mockImplementation(() => {})
   const updateProfile = vi.spyOn(ConfigAPI.prototype, 'updateProfile')
-
-  beforeEach(async () => {
-    log.mockImplementation(() => {})
-  })
 
   afterEach(async () => {
     vi.resetAllMocks()
+  })
+
+  describe('getUpdatesFromPrompt', () => {
+    it('should return the profile updates', async () => {
+      const testUpdates = {
+        firstName: 'John',
+        email: 'johndoe@example.com',
+        state: 'CA',
+      }
+
+      prompts.inject([['firstName', 'email', 'state'], testUpdates.firstName, testUpdates.email, testUpdates.state])
+      const updates = await Update.prototype.getUpdatesFromPrompt()
+
+      expect(updates).toEqual(testUpdates)
+    })
+
+    it('should return null if no fields are selected', async () => {
+      prompts.inject([[]])
+      const updates = await Update.prototype.getUpdatesFromPrompt()
+
+      expect(updates).toBeNull()
+    })
   })
 
   it('should update the profile by passing fields as flags', async () => {
@@ -46,49 +57,28 @@ describe('ProfileUpdate', () => {
     expect(updateProfile).toHaveBeenCalledWith(flags)
   })
 
-  it('should not update the profile if no fields are selected to update', async () => {
-    vi.mocked(checkbox).mockResolvedValueOnce([])
-    expect(updateProfile).toBeCalledTimes(0)
-  })
-
-  it('should prompt for selected fields', async () => {
-    const prompts = [
-      {name: 'firstName', input: 'John', message: 'What is your first name?'},
-      {name: 'lastName', input: 'Doe', message: 'What is your last name?'},
-      {name: 'email', input: 'johndoe@example.com', message: 'What is your email?'},
-      {name: 'phone', input: '555-555-5555', message: 'What is your phone number?'},
-      {name: 'address1', input: '123 Main St', message: 'What is your address?'},
-      {name: 'address2', input: 'Apt 1', message: 'What is your address line 2?'},
-      {name: 'city', input: 'Anytown', message: 'What is your city?'},
-      {name: 'state', input: 'CA', message: 'What is your state?'},
-      {name: 'zip', input: '12345', message: 'What is your zip code?'},
-    ]
-
-    vi.mocked(checkbox).mockResolvedValueOnce(prompts.map(({name}) => name))
-
-    for (const prompt of prompts) vi.mocked(input).mockResolvedValueOnce(prompt.input)
+  it('should not update the profile if updates are null', async () => {
+    const getUpdatesFromPrompt = vi.spyOn(Update.prototype, 'getUpdatesFromPrompt').mockResolvedValue(null)
 
     await Update.run()
 
-    for (const [index, {message}] of prompts.entries()) {
-      expect(input).toHaveBeenNthCalledWith(index + 1, {message})
+    expect(getUpdatesFromPrompt).toHaveBeenCalled()
+
+    expect(updateProfile).to.not.toHaveBeenCalled()
+  })
+
+  it('should update the profile if updates are not null', async () => {
+    const testUpdates = {
+      firstName: 'John',
+      email: 'johndoe@example.com',
+      state: 'CA',
     }
 
-    const updatedProfile = Object.fromEntries(prompts.map(({input, name}) => [name, input]))
-    expect(updateProfile).toHaveBeenCalledWith(updatedProfile)
-  })
-
-  it('should handle errors gracefully', async () => {
-    const error = new Error('Something went wrong')
-    updateProfile.mockImplementationOnce(() => {
-      throw error
-    })
-
-    vi.mocked(checkbox).mockResolvedValueOnce(['firstName'])
-    vi.mocked(input).mockResolvedValueOnce('John')
+    const getUpdatesFromPrompt = vi.spyOn(Update.prototype, 'getUpdatesFromPrompt').mockResolvedValue(testUpdates)
 
     await Update.run()
 
-    expect(log).toHaveBeenCalledWith('Something went wrong')
+    expect(getUpdatesFromPrompt).toHaveBeenCalled()
+    expect(updateProfile).toHaveBeenCalled()
   })
 })

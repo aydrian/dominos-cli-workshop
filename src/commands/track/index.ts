@@ -3,7 +3,7 @@ import {ITrackingResult, Tracking} from 'dominos'
 
 import {ConfigAPI} from '../../lib/config.js'
 
-export default class TrackIndex extends Command {
+export default class Track extends Command {
   static description = 'describe the command here'
 
   static examples = ['<%= config.bin %> <%= command.id %>']
@@ -13,7 +13,7 @@ export default class TrackIndex extends Command {
   }
 
   public async run(): Promise<void> {
-    const {flags} = await this.parse(TrackIndex)
+    const {flags} = await this.parse(Track)
     const tracking = new Tracking()
     let trackingResult: ITrackingResult
 
@@ -36,7 +36,5 @@ export default class TrackIndex extends Command {
     this.log(`Your order number is ${trackingResult.orderID}
     ${trackingResult.orderDescription}
     Status: ${trackingResult.orderStatus}`)
-
-    console.dir(trackingResult)
   }
 }
