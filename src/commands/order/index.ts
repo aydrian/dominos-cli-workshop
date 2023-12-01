@@ -93,8 +93,31 @@ export default class Order extends Command {
 
     const paymentInput = await prompts([
       {type: 'text', name: 'number', message: 'What is your card number?'},
-      {type: 'text', name: 'expiration', message: 'What is your card expiration? (MM/YYYY)'},
-      {type: 'text', name: 'securityCode', message: 'What is your card security code?'},
+      {
+        type: 'text',
+        name: 'expiration',
+        message: 'What is your card expiration? (MM/YYYY)',
+        validate(value) {
+          const parts = value.split('/')
+          if (parts.length !== 2) {
+            return false
+          }
+
+          const month = Number.parseInt(parts[0], 10)
+          const year = Number.parseInt(parts[1], 10)
+          const isValid = month > 0 && month < 13 && year >= 2023 && year <= new Date().getFullYear() + 10
+          return isValid ? true : 'Invalid expiration date'
+        },
+      },
+      {
+        type: 'text',
+        name: 'securityCode',
+        message: 'What is your card security code?',
+        validate: (value) =>
+          (value.length === 3 || value.length === 4) && /^\d{3,4}$/.test(value)
+            ? true
+            : 'Security code must be 3 or 4 digits',
+      },
       {type: 'text', name: 'postalCode', message: 'What is your card postal code?'},
     ])
 

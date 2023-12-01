@@ -32,6 +32,10 @@ export class ConfigAPI {
     this.config = this.readConfig()
   }
 
+  getConfig() {
+    return this.config
+  }
+
   /**
    * Returns the customer's information as a Dominos API `Customer` object.
    *

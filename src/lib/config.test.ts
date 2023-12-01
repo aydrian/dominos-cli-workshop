@@ -1,15 +1,13 @@
 import {Address, Customer} from 'dominos'
+import {vol} from 'memfs'
 import * as fs from 'node:fs'
-import {afterEach, describe, expect, it, vi} from 'vitest'
+import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest'
 
 import {ConfigAPI, type Profile} from './config.js'
 
-vi.mock('fs', async (importOriginal) => {
-  const mod = await importOriginal<typeof import('node:fs')>()
-  return {
-    ...mod,
-    writeFileSync: vi.fn(),
-  }
+vi.mock('node:fs', async () => {
+  const memfs = await vi.importActual<typeof import('memfs')>('memfs')
+  return memfs.fs
 })
 vi.mock('dominos', async (importOriginal) => {
   const mod = await importOriginal<typeof import('dominos')>()
@@ -20,70 +18,141 @@ vi.mock('dominos', async (importOriginal) => {
 
 describe('Config API', () => {
   let configAPI: ConfigAPI
-  const readConfig = vi.spyOn(ConfigAPI.prototype, 'readConfig')
+  const testProfile: Profile = {
+    address1: '123 Main St',
+    address2: 'Apt 2B',
+    city: 'Anytown',
+    email: 'test@test.com',
+    firstName: 'John',
+    lastName: 'Doe',
+    phone: '555-555-5555',
+    state: 'CA',
+    zip: '12345',
+  }
+
+  beforeEach(async () => {
+    vol.reset()
+    vol.fromJSON({'./README.md': '1'}, '/tmp')
+  })
 
   afterEach(() => {
     vi.resetAllMocks()
   })
 
-  it('getCustomer() should return null if no customer profile is set', () => {
-    readConfig.mockImplementation(() => ({}))
-    configAPI = new ConfigAPI('test')
-    expect(configAPI.getCustomer()).toBeNull()
-  })
-
-  it('getCustomer() should return a customer with the correct details', () => {
-    const profile: Profile = {
-      address1: '123 Main St',
-      address2: 'Apt 2B',
-      city: 'Anytown',
-      email: 'test@test.com',
-      firstName: 'John',
-      lastName: 'Doe',
-      phone: '555-555-5555',
-      state: 'CA',
-      zip: '12345',
-    }
-
-    readConfig.mockImplementation(() => ({profile}))
-    const configAPI = new ConfigAPI('test')
-    const customer = configAPI.getCustomer()
-    expect(customer).toBeInstanceOf(Customer)
-    expect(customer?.firstName).toEqual(profile.firstName)
-    expect(customer?.lastName).toEqual(profile.lastName)
-    expect(customer?.email).toEqual(profile.email)
-    expect(customer?.phone).toEqual(profile.phone.replaceAll('-', ''))
-
-    const address = new Address({
-      street: `${profile.address1}${profile.address2 ? ` ${profile.address2}` : ''}`,
-      city: profile.city,
-      region: profile.state,
-      postalCode: profile.zip,
+  describe('getCustomer', () => {
+    it('should return null if no customer profile is set', () => {
+      configAPI = new ConfigAPI('/tmp/test.json')
+      expect(configAPI.getCustomer()).toBeNull()
     })
 
-    expect(customer?.address).toEqual(address)
+    it('should return a customer with the correct details', () => {
+      const profile: Profile = {
+        address1: '123 Main St',
+        address2: 'Apt 2B',
+        city: 'Anytown',
+        email: 'test@test.com',
+        firstName: 'John',
+        lastName: 'Doe',
+        phone: '555-555-5555',
+        state: 'CA',
+        zip: '12345',
+      }
+
+      vol.fromJSON({'test.json': JSON.stringify({profile})}, '/tmp')
+      const configAPI = new ConfigAPI('/tmp/test.json')
+      const customer = configAPI.getCustomer()
+      expect(customer).toBeInstanceOf(Customer)
+      expect(customer?.firstName).toEqual(profile.firstName)
+      expect(customer?.lastName).toEqual(profile.lastName)
+      expect(customer?.email).toEqual(profile.email)
+      expect(customer?.phone).toEqual(profile.phone.replaceAll('-', ''))
+
+      const address = new Address({
+        street: `${profile.address1}${profile.address2 ? ` ${profile.address2}` : ''}`,
+        city: profile.city,
+        region: profile.state,
+        postalCode: profile.zip,
+      })
+
+      expect(customer?.address).toEqual(address)
+    })
   })
 
-  it('getFavoriteStore() should return null if no favorite store is set', async () => {
-    readConfig.mockImplementation(() => ({}))
-    configAPI = new ConfigAPI('/path/to/config')
-    const favoriteStore = await configAPI.getFavoriteStore()
-    expect(favoriteStore).toBeNull()
+  describe('getFavoriteStore', () => {
+    it('should return null if no favorite store is set', async () => {
+      configAPI = new ConfigAPI('/tmp/test.json')
+      const favoriteStore = await configAPI.getFavoriteStore()
+      expect(favoriteStore).toBeNull()
+    })
+
+    it('should return the favorite store if it is set', async () => {
+      const storeId = '4332'
+      vol.fromJSON({'test.json': JSON.stringify({favoriteStoreId: storeId})}, '/tmp')
+      configAPI = new ConfigAPI('/tmp/test.json')
+      const favoriteStore = await configAPI.getFavoriteStore()
+
+      expect(favoriteStore?.info.StoreID?.toString()).toEqual(storeId)
+    })
   })
 
-  it('getFavoriteStore() should return the favorite store if it is set', async () => {
-    const storeId = '4332'
-    readConfig.mockImplementation(() => ({favoriteStoreId: storeId}))
-    configAPI = new ConfigAPI('test')
-    const favoriteStore = await configAPI.getFavoriteStore()
+  describe('readConfig', () => {
+    it('should create a new configuration file if it does not exist', () => {
+      expect(fs.existsSync('/tmp/test.json')).toBe(false)
+      const configAPI = new ConfigAPI('/tmp/test.json')
+      configAPI.readConfig()
+      expect(fs.existsSync('/tmp/test.json')).toBe(true)
+    })
 
-    expect(favoriteStore?.info.StoreID?.toString()).toEqual(storeId)
+    it('should read the configuration file if it exists', () => {
+      const config = {profile: {firstName: 'John'}}
+      vol.fromJSON({'test.json': JSON.stringify(config)}, '/tmp')
+      const configAPI = new ConfigAPI('/tmp/test.json')
+      configAPI.readConfig()
+      expect(configAPI.getConfig()).toEqual(config)
+    })
   })
 
-  it('writeConfig() should write the config to a file', async () => {
-    readConfig.mockImplementation(() => ({}))
-    const configAPI = new ConfigAPI('test')
-    configAPI.writeConfig()
-    expect(vi.mocked(fs.writeFileSync)).toHaveBeenLastCalledWith('test', '{}', {encoding: 'utf8'})
+  describe('saveProfile', () => {
+    it('should save the profile to the configuration file', () => {
+      const configAPI = new ConfigAPI('/tmp/test.json')
+      configAPI.saveProfile(testProfile)
+      expect(configAPI.getConfig().profile).toEqual(testProfile)
+    })
+  })
+
+  describe('updateFavoriteStore', () => {
+    it('should update the favorite store ID in the configuration file', () => {
+      const configAPI = new ConfigAPI('/tmp/test.json')
+      const storeId = '4332'
+      configAPI.updateFavoriteStore(storeId)
+      expect(configAPI.getConfig().favoriteStoreId).toEqual(storeId)
+    })
+  })
+
+  describe('updateProfile', () => {
+    it('should throw an error if the customer profile is not set up', () => {
+      const configAPI = new ConfigAPI('/tmp/test.json')
+      const updateProfile = () => configAPI.updateProfile({} as Profile)
+      expect(updateProfile).toThrowError('You need to set up your profile first!')
+    })
+
+    it('should update the customer profile', () => {
+      vol.fromJSON({'test.json': JSON.stringify({profile: testProfile})}, '/tmp')
+      const configAPI = new ConfigAPI('/tmp/test.json')
+      const updates = {firstName: 'John'}
+      configAPI.updateProfile(updates)
+      expect(configAPI.getProfile()).toEqual({...testProfile, ...updates})
+    })
+  })
+
+  describe('writeConfig', () => {
+    it('should write the config to a file', async () => {
+      console.log('before', vol.toJSON())
+      const configAPI = new ConfigAPI('/tmp/test.json')
+      configAPI.readConfig()
+      console.log('after', vol.toJSON())
+      configAPI.writeConfig()
+      expect(fs.readFileSync('/tmp/test.json', {encoding: 'utf8'})).toEqual('{}')
+    })
   })
 })
