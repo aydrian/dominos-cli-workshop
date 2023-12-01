@@ -3,7 +3,7 @@ import * as fs from 'node:fs'
 
 export interface Profile {
   address1: string
-  address2: string
+  address2?: string
   city: string
   email: string
   firstName: string

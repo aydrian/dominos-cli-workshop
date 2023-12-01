@@ -96,27 +96,12 @@ export default class Order extends Command {
       {
         type: 'text',
         name: 'expiration',
-        message: 'What is your card expiration? (MM/YYYY)',
-        validate(value) {
-          const parts = value.split('/')
-          if (parts.length !== 2) {
-            return false
-          }
-
-          const month = Number.parseInt(parts[0], 10)
-          const year = Number.parseInt(parts[1], 10)
-          const isValid = month > 0 && month < 13 && year >= 2023 && year <= new Date().getFullYear() + 10
-          return isValid ? true : 'Invalid expiration date'
-        },
+        message: 'What is your card expiration? (MM/YY)',
       },
       {
         type: 'text',
         name: 'securityCode',
         message: 'What is your card security code?',
-        validate: (value) =>
-          (value.length === 3 || value.length === 4) && /^\d{3,4}$/.test(value)
-            ? true
-            : 'Security code must be 3 or 4 digits',
       },
       {type: 'text', name: 'postalCode', message: 'What is your card postal code?'},
     ])
@@ -160,7 +145,6 @@ export default class Order extends Command {
         initial: 0,
       },
     ])
-    console.log({response})
 
     return Number.parseFloat(response.tipAmount ?? 0)
   }
@@ -220,14 +204,16 @@ export default class Order extends Command {
       ux.action.start('Placing your order...')
       try {
         await order.place()
-      } catch (error) {
-        console.trace(error)
+      } catch {
+        // console.trace(error)
 
         // inspect Order Response to see more information about the
         // failure, unless you added a real card, then you can inspect
         // the order itself
-        console.log('\n\nFailed Order Probably Bad Card, here is order.priceResponse the raw response from Dominos\n\n')
-        console.dir(order.placeResponse, {depth: 5})
+        // console.dir(order.placeResponse, {depth: 5})
+        this.error('Failed to place order, please try again', {
+          suggestions: ['Check your that your payment method is valid.'],
+        })
       }
 
       ux.action.stop()

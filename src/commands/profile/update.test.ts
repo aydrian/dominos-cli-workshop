@@ -20,11 +20,28 @@ describe('ProfileUpdate', () => {
     it('should return the profile updates', async () => {
       const testUpdates = {
         firstName: 'John',
+        lastName: 'Doe',
         email: 'johndoe@example.com',
+        phone: '123-456-7890',
+        address1: '123 Main St',
+        address2: 'Suite 100',
+        city: 'San Francisco',
         state: 'CA',
+        zip: '94107',
       }
 
-      prompts.inject([['firstName', 'email', 'state'], testUpdates.firstName, testUpdates.email, testUpdates.state])
+      prompts.inject([
+        ['firstName', 'lastName', 'email', 'phone', 'address1', 'address2', 'city', 'state', 'zip'],
+        testUpdates.firstName,
+        testUpdates.lastName,
+        testUpdates.email,
+        testUpdates.phone,
+        testUpdates.address1,
+        testUpdates.address2,
+        testUpdates.city,
+        testUpdates.state,
+        testUpdates.zip,
+      ])
       const updates = await Update.prototype.getUpdatesFromPrompt()
 
       expect(updates).toEqual(testUpdates)

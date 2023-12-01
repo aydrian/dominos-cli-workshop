@@ -76,6 +76,37 @@ describe('Config API', () => {
 
       expect(customer?.address).toEqual(address)
     })
+
+    it('should return a customer with no address2', () => {
+      const profile: Profile = {
+        address1: '123 Main St',
+        city: 'Anytown',
+        email: 'test@test.com',
+        firstName: 'John',
+        lastName: 'Doe',
+        phone: '555-555-5555',
+        state: 'CA',
+        zip: '12345',
+      }
+
+      vol.fromJSON({'test.json': JSON.stringify({profile})}, '/tmp')
+      const configAPI = new ConfigAPI('/tmp/test.json')
+      const customer = configAPI.getCustomer()
+      expect(customer).toBeInstanceOf(Customer)
+      expect(customer?.firstName).toEqual(profile.firstName)
+      expect(customer?.lastName).toEqual(profile.lastName)
+      expect(customer?.email).toEqual(profile.email)
+      expect(customer?.phone).toEqual(profile.phone.replaceAll('-', ''))
+
+      const address = new Address({
+        street: `${profile.address1}${profile.address2 ? ` ${profile.address2}` : ''}`,
+        city: profile.city,
+        region: profile.state,
+        postalCode: profile.zip,
+      })
+
+      expect(customer?.address).toEqual(address)
+    })
   })
 
   describe('getFavoriteStore', () => {
