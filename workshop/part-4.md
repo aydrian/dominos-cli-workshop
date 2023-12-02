@@ -1,6 +1,6 @@
 # Part 4: Enhancing the UX
 
-To assist with the overall user experience, we're using prompts from the [❯ Prompts](https://github.com/terkelg/prompts#readme) package. There are many types of prompts available to use but unfortunately the previous developer used the text prompt in places where an alternative prompt would have been more appropriate. Let's look at one of the places that could be improved just by changing the prompt type.
+To assist with the overall user experience, we're using prompts from the [❯ Prompts](https://github.com/terkelg/prompts#readme) package. There are many types of prompts available to use, but unfortunately the previous developer used the text prompt in places where an alternative prompt would have been more appropriate. Let's look at one of the places that could be improved just by changing the prompt type.
 
 ## Update Profile State prompt to be an autocomplete type
 
