@@ -53,11 +53,11 @@ npm run build && ./bin/run.js profile
 
 Because this is the first time running the command, you will be prompted to fill out your user profile.
 
-TODO: Animated Gif of completing the profile
+![Profile Command](./assets/initial-profile-command.gif)
 
 Now, if you run the command again, you will see your profile displayed.
 
 **We're almost ready to dive into the tasks, but first we'll install a plugin to help accelerate the process.**
 
-| [Back](part-2.md) | [Next](part-4.md) |
+| [Back](part-1.md) | [Next](part-3.md) |
 | ----------------- | ----------------- |

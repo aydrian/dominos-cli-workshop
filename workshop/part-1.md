@@ -28,5 +28,5 @@ Rumor has it there will be a pizza party upon completion of the project.
 
 **In the next exercise, we'll get you onboarded and familiarize you with the existing application code.**
 
-| [Back](part-1.md) | [Next](part-3.md) |
+| [Back](part-0.md) | [Next](part-2.md) |
 | ----------------- | ----------------- |

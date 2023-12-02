@@ -3,7 +3,6 @@ import {Command, Flags, ux} from '@oclif/core'
 import prompts from 'prompts'
 
 import {ConfigAPI, Profile} from '../../lib/config.js'
-import {stateChoices} from './index.js'
 
 export default class ProfileUpdate extends Command {
   static description = 'Update profile'
@@ -84,10 +83,9 @@ export default class ProfileUpdate extends Command {
       },
       {
         type: (prev: string, values: Record<string, string | string[]>) =>
-          values.fields.includes('state') ? 'autocomplete' : null,
+          values.fields.includes('state') ? 'text' : null,
         name: 'state',
         message: 'What is your state?',
-        choices: stateChoices,
       },
       {
         type: (prev: string, values: Record<string, string | string[]>) =>

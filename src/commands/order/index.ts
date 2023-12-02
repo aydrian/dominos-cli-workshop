@@ -96,7 +96,18 @@ export default class Order extends Command {
       {
         type: 'text',
         name: 'expiration',
-        message: 'What is your card expiration? (MM/YY)',
+        message: 'What is your card expiration? (MM/YYYY)',
+        validate(value) {
+          const parts = value.split('/')
+          if (parts.length !== 2) {
+            return 'Invalid expiration date'
+          }
+
+          const month = Number.parseInt(parts[0], 10)
+          const year = Number.parseInt(parts[1], 10)
+          const isValid = month > 0 && month < 13 && year >= 2023 && year <= new Date().getFullYear() + 10
+          return isValid ? true : 'Invalid expiration date'
+        },
       },
       {
         type: 'text',
