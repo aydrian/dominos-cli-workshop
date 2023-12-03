@@ -77,7 +77,7 @@ Vitest is still a relatively new testing framework. It's possible that there jus
 
 </details>
 
-** You did it! 🎉 You fixed a failing test and improved test coverage.**
+**You did it! 🎉 You fixed a failing test and improved test coverage.**
 
 Feel free to check out other areas that might not have complete coverage and see if you can get them to 💯. Remember, the Domino's team won't settle for less. On to the next task.
 
