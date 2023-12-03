@@ -123,14 +123,9 @@ export class ConfigAPI {
    * Updates the customer's profile information in the configuration file.
    *
    * @param profile The updated profile information
-   * @throws {Error} If the customer's profile is not set up, an error will be thrown
    * @returns null
    */
   updateProfile(profile: Partial<Profile>) {
-    if (!this.config.profile) {
-      throw new Error('You need to set up your profile first!')
-    }
-
     const updatedConfig = {...this.config.profile, ...profile}
     this.config.profile = updatedConfig
     this.writeConfig()

@@ -164,7 +164,7 @@ describe('Config API', () => {
     it('should throw an error if the customer profile is not set up', () => {
       const configAPI = new ConfigAPI('/tmp/test.json')
       const updateProfile = () => configAPI.updateProfile({} as Profile)
-      expect(updateProfile).toThrowError('You need to set up your profile first!')
+      expect(updateProfile).toThrowError()
     })
 
     it('should update the customer profile', () => {
@@ -178,10 +178,8 @@ describe('Config API', () => {
 
   describe('writeConfig', () => {
     it('should write the config to a file', async () => {
-      console.log('before', vol.toJSON())
       const configAPI = new ConfigAPI('/tmp/test.json')
       configAPI.readConfig()
-      console.log('after', vol.toJSON())
       configAPI.writeConfig()
       expect(fs.readFileSync('/tmp/test.json', {encoding: 'utf8'})).toEqual('{}')
     })

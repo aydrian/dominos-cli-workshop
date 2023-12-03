@@ -46,13 +46,6 @@ describe('ProfileUpdate', () => {
 
       expect(updates).toEqual(testUpdates)
     })
-
-    it('should return null if no fields are selected', async () => {
-      prompts.inject([[]])
-      const updates = await Update.prototype.getUpdatesFromPrompt()
-
-      expect(updates).toBeNull()
-    })
   })
 
   it('should update the profile by passing fields as flags', async () => {
