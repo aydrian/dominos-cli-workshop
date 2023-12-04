@@ -60,5 +60,5 @@ public async getPaymentFromPrompt(amountToCharge: number): Promise<Payment> {
 
 There are still lots of places that could use prompt validation, even in this function. As always, you're welcome to discover other places to add validation. With the help of Tabnine and the right prompt, we're sure you'll make short work of it. When you're ready, let's continue on with the next task.
 
-| [Back](part-4.md) | [Next](part-6.md) |
+| [Back](part-4.md) | [Next](part-7.md) |
 | ----------------- | ----------------- |

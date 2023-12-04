@@ -81,5 +81,5 @@ Vitest is still a relatively new testing framework. It's possible that there jus
 
 Feel free to check out other areas that might not have complete coverage and see if you can get them to 💯. Remember, the Domino's team won't settle for less. On to the next task.
 
-| [Back](part-6.md) | [Next](part-8.md) |
+| [Back](part-5.md) | [Next](part-8.md) |
 | ----------------- | ----------------- |
