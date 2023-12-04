@@ -1,30 +1,30 @@
-# Build a CLI with TypeScript to order Pizza from Domino's
+# Build a CLI with TypeScript to Order Pizza from Domino's
 
-This workshop will walk you through getting started with using AI to assist in the software development process. We will learn how to best utilize Tabnine while creating a CLI that interacts with the Domino's API to order pizza.
+This workshop will walk you through getting started with AI to assist in the software development process. We'll learn how to best utilize Tabnine while creating a CLI that interacts with the Domino's API to order pizza.
 
-## 🎓 Learning Outcomes
+## 🎓 Learning outcomes
 
-- Where AI fits in the Software Development Life Cycle
-- Utilizing an AI Coding Assistant to:
-  - Get explaination of unknown code using chat
+- Understand where AI fits in the software development lifecycle
+- Utilize an AI coding assistant to:
+  - Get an explanation of unknown code using chat
   - Fix code using chat
   - Add documentation for selected code
   - Generate tests for selected code
   - Generate code using type ahead and natural language prompts
 
-## 🥞 Tech Stack
+## 🥞 Tech stack
 
-- Language - 🟦 [TypeScript](https://www.typescriptlang.org/)
-- CLI Framework - 🖥️ [oclif](https://oclif.io/)
-- Testing Framework - ⚡️ [Vitest](https://vitest.dev)
-- Interactive Prompts - ❯ [Prompts](https://github.com/terkelg/prompts)
-- Terminal String Styling - 🖍️ [Chalk](https://github.com/chalk/chalk)
+- Language: 🟦 [TypeScript](https://www.typescriptlang.org/)
+- CLI framework: 🖥️ [oclif](https://oclif.io/)
+- Testing framework: ⚡️ [Vitest](https://vitest.dev)
+- Interactive prompts: ❯ [Prompts](https://github.com/terkelg/prompts)
+- Terminal string styling: 🖍️ [Chalk](https://github.com/chalk/chalk)
 
 ## ⚠️ Requirements
 
-- basic TypeScript/JavaScript
-- basic Git
-- a GitHub account
+- Basic TypeScript/JavaScript
+- Basic Git
+- GitHub account
 - Node.js 18+ with npm
 - Visual Studio, VS Code, or WebStorm IDE
 
