@@ -1,15 +1,15 @@
 # Part 4: Enhancing the UX
 
-To assist with the overall user experience, we're using prompts from the [❯ Prompts](https://github.com/terkelg/prompts#readme) package. There are many types of prompts available to use, but unfortunately the previous developer used the text prompt in places where an alternative prompt would have been more appropriate. Let's look at one of the places that could be improved just by changing the prompt type.
+To assist with the overall user experience, we're using prompts from the [❯ Prompts](https://github.com/terkelg/prompts#readme) package. There are many types of prompts available to use, but unfortunately, the previous developer used the text prompt in places where an alternative prompt would have been more appropriate. Let's look at one of the places that could be improved just by changing the prompt type.
 
 ## Update Profile State prompt to be an autocomplete type
 
-### 🧑‍💻 Task: Fifty Nifty[^1] tedious choices to code
+### 🧑‍💻 Task: Fifty nifty[^1] tedious choices to code
 
-In order to use the [autocomplete][1] prompt, you'll need to create an list of choices. Each choice is made up of a title which displays to the user and a value used by the CLI. This is a lot of typing and honestly time better spent doing something else... like petting a dog. Let's instead use Tabnine's chat to generate the list of choices for us. Use the prompt below and insert the code at the bottom of the [`src/commands/profile/index.ts`](../src/commands/profile/index.ts) file.
+To use the [autocomplete][1] prompt, you'll need to create a list of choices. Each choice is made up of a title that displays to the user and a value used by the CLI. That's a lot of typing and honestly, is time better spent doing something else...like petting a dog. Let's instead use Tabnine's chat to generate the list of choices for us. Use the prompt below and insert the code at the bottom of the [`src/commands/profile/index.ts`](../src/commands/profile/index.ts) file.
 
 > 🗣️ **Prompt** <br />
-> a choice is an object containing a title and value. create an array of choices for each of the 50 united states where the value is the 2 letter postal code
+> A choice is an object containing a title and value. Create an array of choices for each of the 50 United States where the value is the two-letter postal code.
 
 Your result should look similar to the solution below:
 
@@ -81,7 +81,7 @@ Now that we have a list of state choices, let's put it to use. In the [`src/comm
 
 > [!TIP]
 > Try highlighting the function and using the chat with the following prompt to help you out:
-> "refactor this function to use an autocomplete with the state choices for the state input"
+> "Refactor this function to use an autocomplete with the state choices for the state input."
 
 Your result should look similar to the solution below:
 
@@ -118,10 +118,10 @@ public async getProfileFromPrompt(): Promise<ProfileType> {
 
 We also prompt the user to enter a state when they need to update their profile. Let's make the same change to the `getUpdatesFromPrompt()` function in the [`src/commands/profile/update.ts`](../src/commands/profile/index.ts) file.
 
-Can you tell what's happening in this function? If not, try highlighting it and asking Tabnine to explain by using `/explain-code` in the chat.
+Can you tell what's happening in this function? If not, try highlighting it and asking Tabnine to explain it by using `/explain-code` in the chat.
 
 > [!NOTE]
-> You can reuse the list from above by exporting the `stateChoices` array and adding `import {stateChoices} from './index.js'` to the top of the update command file.
+> You can reuse the above list by exporting the `stateChoices` array and adding `import {stateChoices} from './index.js'` to the top of the update command file.
 
 Your result should look similar to the solution below:
 
