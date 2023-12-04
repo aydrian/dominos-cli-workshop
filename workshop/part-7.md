@@ -1,4 +1,4 @@
-# Part 7: Everybody loves Unit Testing
+# Part 7: Everybody Loves Unit Testing
 
 A unit test is a block of code that verifies the accuracy of a smaller, isolated block of application code, typically a function or method. Regardless of whether or not we write them before or after creating the code they test, for this project, we're required to have them. We'll be using the [Vitest](https://vitest.dev/) testing framework. The following tasks will help us learn how Tabnine can assist in the testing process.
 
@@ -10,12 +10,12 @@ If we were to run our tests, we would see that one is failing. In your terminal,
 
 You should see that the "update profile should throw an error if the customer profile is not set up" test in [`src/lib/config.test.ts`](../src/lib/config.test.ts) is failing. Let's fix it.
 
-The failing function lives in [`src/lib/config.ts`](../src/lib/config.ts). Open the file and locate the `updateProfile` function. We can ask Tabnine to refactor this function t pass the test by highlighting it and providing the chat with the following prompt:
+The failing function lives in [`src/lib/config.ts`](../src/lib/config.ts). Open the file and locate the `updateProfile` function. We can ask Tabnine to refactor this function to pass the test by highlighting it and providing the chat with the following prompt:
 
 > 🗣️ **Prompt** <br />
-> fix this function so that it will throw an error if there isn't an existing profile
+> Fix this function so that it will throw an error if there isn't an existing profile.
 
-Update the function based on the updated code provided and re-run the tests. Does it pass?
+Update the function based on the updated code provided and rerun the tests. Does it pass?
 
 Your result should look similar to the solution below:
 
@@ -41,7 +41,7 @@ updateProfile(profile: Partial<Profile>) {
 
 Now that our tests are all passing, let's run a test coverage report. Test coverage reports tell you what percentage of your code is covered by your test cases. In your terminal, run `npm run test` in the project root directory.
 
-You will notice that `update.ts` under `src/commands/profile` returns less than 100% coverage. Let's correct this. Open the [`src/commands/profile/update.ts`](./src/commands/profile/update.ts) and navigate to the lines listed in the "Uncovered Line #s" column. You should see the following code in the `run()` function:
+You'll notice that `update.ts` under `src/commands/profile` returns less than 100% coverage. Let's correct this. Open the [`src/commands/profile/update.ts`](./src/commands/profile/update.ts) and navigate to the lines listed in the "Uncovered Line #s" column. You should see the following code in the `run()` function:
 
 ```typescript
 if (fields.length === 0) {
@@ -52,12 +52,12 @@ if (fields.length === 0) {
 We currently don't have any test written to cover the case when a user doesn't select any profile fields to update. We can have Tabnine generate a new unit test by highlighting the `getUpdatesFromPrompt()` function and providing the following prompt in the chat:
 
 > 🗣️ **Prompt** <br />
-> write a vitest unit test for this function to make sure it returns null if no fields are selected. use prompts.injest() to respond to prompts
+> Write a vitest unit test for this function to make sure it returns null if no fields are selected. Use prompts.injest() to respond to prompts.
 
-Update [`src/commands/profile/update.test.ts`](./src/commands/profile/update.test.ts) based on the provided example and re-run the coverage report. Are we at 100%?
+Update [`src/commands/profile/update.test.ts`](./src/commands/profile/update.test.ts) based on the provided example and rerun the coverage report. Are we at 100%?
 
 > [!TIP]
-> Tabnine looks for context in other project files. If you do not get what you want at first, try helping Tabnine by visiting similar files. Then try your prompt again. You also might want to adjust the prompt.
+> Tabnine looks for context in other project files. If you don't get what you want at first, try helping Tabnine by visiting similar files. Then try your prompt again. You also might want to adjust the prompt.
 
 Your result should look similar to the solution below:
 
@@ -75,7 +75,7 @@ it('should return null if no fields are selected', async () => {
 ```
 
 > [!NOTE]
-> Vitest is still a relatively new testing framework. It's possible that there just isn't enough training data available to Tabnine's models yet. You're likely seeing code that includes Jest which is a popular framework that's been around for a while. The good news is that Vitest uses Jest so only small tweaks are required.
+> Vitest is still a relatively new testing framework. It's possible that there just isn't enough training data available for Tabnine's models yet. You're likely seeing code that includes Jest, which is a popular framework that's been around for a while. The good news is that Vitest uses Jest so only small tweaks are required.
 
 </details>
 
