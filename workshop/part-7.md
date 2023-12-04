@@ -56,6 +56,9 @@ We currently don't have any test written to cover the case when a user doesn't s
 
 Update [`src/commands/profile/update.test.ts`](./src/commands/profile/update.test.ts) based on the provided example and re-run the coverage report. Are we at 100%?
 
+> [!TIP]
+> Tabnine looks for context in other project files. If you do not get what you want at first, try helping Tabnine by visiting similar files. Then try your prompt again. You also might want to adjust the prompt.
+
 Your result should look similar to the solution below:
 
 <details> 
@@ -71,9 +74,8 @@ it('should return null if no fields are selected', async () => {
 })
 ```
 
-Does your solution match? If not, why do you think that is? Try adjusting the prompt and asking again.
-
-Vitest is still a relatively new testing framework. It's possible that there just isn't enough training data available to Tabnine's models yet. You're likely seeing code that includes Jest which is a popular framework that's been around for a while. The good news is that Vitest uses Jest so only small tweaks are required.
+> [!NOTE]
+> Vitest is still a relatively new testing framework. It's possible that there just isn't enough training data available to Tabnine's models yet. You're likely seeing code that includes Jest which is a popular framework that's been around for a while. The good news is that Vitest uses Jest so only small tweaks are required.
 
 </details>
 

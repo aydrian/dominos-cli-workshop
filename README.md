@@ -30,8 +30,8 @@ This workshop will walk you through getting started with using AI to assist in t
 
 ## 📓 Curriculum
 
-- [Part 0: AI in the Software Development Life Cycle](workshop/part-0.md)
-- [Part 1: Welcome to _Fake Company Name_ **OR** Your mission, should you choose to accept it.](workshop/part-1.md)
+- [Part 0: AI-Powered Software Development](workshop/part-0.md)
+- [Part 1: Welcome to Asimov, Inc **OR** Your mission, should you choose to accept it.](workshop/part-1.md)
 - [Part 2: Onboarding](workshop/part-2.md)
 - [Part 3: Getting started with Tabnine](workshop/part-3.md)
 - [Part 4: Enhancing the UX](workshop/part-4.md)
