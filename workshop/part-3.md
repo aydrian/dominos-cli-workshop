@@ -2,6 +2,11 @@
 
 For the following tasks, we'll be using [Tabnine](https://tabnine.com/) to help exelerate our development.
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/logo_on_black.png" />
+  <img alt="Tabnine" src="./assets/logo_on_white.png" width="300" />
+</picture>
+
 ## Get started with 3 Months of Tabnine Pro for free
 
 1. Sign up for your Tabnine Pro account using the QR code provided during the workshop.

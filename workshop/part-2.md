@@ -57,6 +57,29 @@ Because this is the first time running the command, you will be prompted to fill
 
 Now, if you run the command again, you will see your profile displayed.
 
+You can search for and set your favorite store with the following command:
+
+```shell
+npm run build && ./bin/run.js store search
+```
+
+Now that you have a profile and favorite store, you can try ordering a pizza with the following command:
+
+```shell
+npm run build && ./bin/run.js order
+```
+
+> [!NOTE]
+> You'll want to use a fake credit card unless you really want to order a pizza. You can find a list of fake credit cards in the table below.
+
+### Fake Credit Cards
+
+| Type             | Card Number      | Expiration | Security Code |
+| ---------------- | ---------------- | ---------- | ------------- |
+| American Express | 379482514150104  | 12/2025    | 7956          |
+| Visa             | 4032033011977175 | 04/2025    | 375           |
+| Master Card      | 5110925981962552 | 09/2025    | 192           |
+
 **We're almost ready to dive into the tasks, but first we'll install a plugin to help accelerate the process.**
 
 | [Back](part-1.md) | [Next](part-3.md) |
