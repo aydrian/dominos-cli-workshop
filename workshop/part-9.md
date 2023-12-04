@@ -4,17 +4,17 @@
 
 ![fireworks](https://media.giphy.com/media/kolvlRnXh8Jj2/giphy.gif)
 
-This concludes the workshop. Hopefully you have learned enough about how to utilize Tabnine in the development process to accelerate completing the MVP version in time to meet Domino's deadline.
+This concludes the workshop. Hopefully, you've learned enough about how to utilize Tabnine in the development process to accelerate completing the MVP version in time to meet Domino's deadline.
 
-## 📋 Next Steps
+## 📋 Next steps
 
-It you enjoyed working on this CLI and would like to continue, here are some remaining tasks.
+If you enjoyed working on this CLI and would like to continue, here are some remaining tasks:
 
 - Review all the prompts and make any UX improvements by changing the [prompt type](https://github.com/terkelg/prompts#-types).
-- While your reviewing the prompts, fortify the user input with validation and helpful error messages.
+- While you're reviewing the prompts, fortify the user input with validation and helpful error messages.
 - Add any tests to help reach 💯 test coverage.
 - Add JSDoc annotations to all the functions and classes.
-- Go beyond the MVP. Explore what the [🍕 Domino's Pizza API](https://github.com/RIAEvangelist/node-dominos-pizza-api/) can do and add more features. Remember to use a fake credit card number otherwise it will order you a pizza.
+- Go beyond the MVP. Explore what the [🍕 Domino's Pizza API](https://github.com/RIAEvangelist/node-dominos-pizza-api/) can do and add more features. Remember to use a fake credit card number—otherwise, it will order you a pizza.
 
 Most importantly take advantage of your special extended free Tabnine Pro account in your personal and work[^1] projects.
 
