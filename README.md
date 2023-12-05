@@ -4,7 +4,7 @@ This workshop will walk you through getting started with AI to assist in the sof
 
 ## 🎓 Learning outcomes
 
-- Understand where AI fits in the software development lifecycle
+- Understand where AI fits in the software development life cycle
 - Utilize an AI coding assistant to:
   - Get an explanation of unknown code using chat
   - Fix code using chat
@@ -31,14 +31,14 @@ This workshop will walk you through getting started with AI to assist in the sof
 ## 📓 Curriculum
 
 - [Part 0: AI-Powered Software Development](workshop/part-0.md)
-- [Part 1: Welcome to Asimov, Inc **OR** Your mission, should you choose to accept it.](workshop/part-1.md)
+- [Part 1: Welcome to Asimov, Inc. (**OR:** Your Mission, Should You Choose to Accept It)](workshop/part-1.md)
 - [Part 2: Onboarding](workshop/part-2.md)
-- [Part 3: Getting started with Tabnine](workshop/part-3.md)
+- [Part 3: Getting Started with Tabnine](workshop/part-3.md)
 - [Part 4: Enhancing the UX](workshop/part-4.md)
 - [Part 5: The Validation Game](workshop/part-5.md)
 - Part 6: Remember to stretch and drink water
-- [Part 7: Everybody loves Unit Testing](workshop/part-7.md)
-- [Part 8: Don't forget to Document](workshop/part-8.md)
+- [Part 7: Everybody Loves Unit Testing](workshop/part-7.md)
+- [Part 8: Don't Forget to Document](workshop/part-8.md)
 - [Part 9: Next Steps](workshop/part-9.md)
 
 ## 📝 License
