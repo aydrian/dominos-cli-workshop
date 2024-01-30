@@ -127,6 +127,7 @@ export class ConfigAPI {
    */
   updateProfile(profile: Partial<Profile>) {
     const updatedConfig = {...this.config.profile, ...profile}
+    // @ts-expect-error remove this as part of Part 7
     this.config.profile = updatedConfig
     this.writeConfig()
   }

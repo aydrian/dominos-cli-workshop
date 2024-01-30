@@ -17,21 +17,21 @@
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^20",
     "@types/prompts": "^2.4.9",
-    "@types/sinon": "^17.0.2",
-    "@vitest/coverage-v8": "^0.34.6",
+    "@types/sinon": "^17.0.3",
+    "@vitest/coverage-v8": "^1.2.2",
     "eslint": "^8",
     "eslint-config-oclif": "^5",
     "eslint-config-oclif-typescript": "^3",
-    "eslint-config-prettier": "^9.0.0",
+    "eslint-config-prettier": "^9.1.0",
     "memfs": "^4.6.0",
-    "oclif": "^4.0.4",
+    "oclif": "^4.4.2",
     "shx": "^0.3.4",
     "sinon": "^17.0.1",
     "stdout-stderr": "^0.1.13",
-    "ts-node": "^10.9.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5",
-    "vite-tsconfig-paths": "^4.2.1",
-    "vitest": "^0.34.6"
+    "vite-tsconfig-paths": "^4.3.1",
+    "vitest": "^1.2.2"
   },
   "engines": {
     "node": ">=18.0.0"
