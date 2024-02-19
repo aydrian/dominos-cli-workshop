@@ -52,7 +52,7 @@ if (fields.length === 0) {
 We currently don't have any test written to cover the case when a user doesn't select any profile fields to update. We can have Tabnine generate a new unit test by highlighting the `getUpdatesFromPrompt()` function and providing the following prompt in the chat:
 
 > 🗣️ **Prompt** <br />
-> Write a vitest unit test for this function to make sure it returns null if no fields are selected. Use prompts.injest() to respond to prompts.
+> Write a vitest unit test for this function to make sure it returns null if no fields are selected. Use prompts.inject() to respond to prompts.
 
 Update [`src/commands/profile/update.test.ts`](./src/commands/profile/update.test.ts) based on the provided example and rerun the coverage report. Are we at 100%?
 
