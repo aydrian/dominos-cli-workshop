@@ -31,7 +31,7 @@ Your result should look similar to the solution below:
 
 ### 🧑‍💻 Task: Add JSDoc for `getPaymentFromPrompt()` function
 
-All the command files still need to be documented, but for now, let's focus on just one function. Open the [`src/commands/order.ts`](../src/commands/order.ts) file and locate the `getPaymentFromPrompt()` function. Let's again have Tabnine generate the JSDoc string for us, but this time we'll highlight the function and execute `/document-code` in the chat.
+All the command files still need to be documented, but for now, let's focus on just one function. Open the [`src/commands/order/index.ts`](../src/commands/order/index.ts) file and locate the `getPaymentFromPrompt()` function. Let's again have Tabnine generate the JSDoc string for us, but this time we'll highlight the function and execute `/document-code` in the chat.
 
 Once the documentation comments have been provided, you can click Insert to update the code.
 
