@@ -28,7 +28,7 @@ export class ConfigAPI {
    * @param configDir The directory where the configuration file is located
    */
   constructor(configDir: string) {
-    this.configFile = configDir
+    this.configFile = `${configDir}-config`
     this.config = this.readConfig()
   }
 
