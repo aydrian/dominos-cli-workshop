@@ -41,7 +41,7 @@ describe('Config API', () => {
 
   describe('getCustomer', () => {
     it('should return null if no customer profile is set', () => {
-      configAPI = new ConfigAPI('/tmp/test.json')
+      configAPI = new ConfigAPI('/tmp')
       expect(configAPI.getCustomer()).toBeNull()
     })
 
@@ -58,8 +58,8 @@ describe('Config API', () => {
         zip: '12345',
       }
 
-      vol.fromJSON({'test.json': JSON.stringify({profile})}, '/tmp')
-      const configAPI = new ConfigAPI('/tmp/test.json')
+      vol.fromJSON({'config.json': JSON.stringify({profile})}, '/tmp')
+      const configAPI = new ConfigAPI('/tmp')
       const customer = configAPI.getCustomer()
       expect(customer).toBeInstanceOf(Customer)
       expect(customer?.firstName).toEqual(profile.firstName)
@@ -89,8 +89,8 @@ describe('Config API', () => {
         zip: '12345',
       }
 
-      vol.fromJSON({'test.json': JSON.stringify({profile})}, '/tmp')
-      const configAPI = new ConfigAPI('/tmp/test.json')
+      vol.fromJSON({'config.json': JSON.stringify({profile})}, '/tmp')
+      const configAPI = new ConfigAPI('/tmp')
       const customer = configAPI.getCustomer()
       expect(customer).toBeInstanceOf(Customer)
       expect(customer?.firstName).toEqual(profile.firstName)
@@ -111,15 +111,15 @@ describe('Config API', () => {
 
   describe('getFavoriteStore', () => {
     it('should return null if no favorite store is set', async () => {
-      configAPI = new ConfigAPI('/tmp/test.json')
+      configAPI = new ConfigAPI('/tmp')
       const favoriteStore = await configAPI.getFavoriteStore()
       expect(favoriteStore).toBeNull()
     })
 
     it('should return the favorite store if it is set', async () => {
       const storeId = '4332'
-      vol.fromJSON({'test.json': JSON.stringify({favoriteStoreId: storeId})}, '/tmp')
-      configAPI = new ConfigAPI('/tmp/test.json')
+      vol.fromJSON({'config.json': JSON.stringify({favoriteStoreId: storeId})}, '/tmp')
+      configAPI = new ConfigAPI('/tmp')
       const favoriteStore = await configAPI.getFavoriteStore()
 
       expect(favoriteStore?.info.StoreID?.toString()).toEqual(storeId)
@@ -128,16 +128,16 @@ describe('Config API', () => {
 
   describe('readConfig', () => {
     it('should create a new configuration file if it does not exist', () => {
-      expect(fs.existsSync('/tmp/test.json')).toBe(false)
-      const configAPI = new ConfigAPI('/tmp/test.json')
+      expect(fs.existsSync('/tmp/config.json')).toBe(false)
+      const configAPI = new ConfigAPI('/tmp')
       configAPI.readConfig()
-      expect(fs.existsSync('/tmp/test.json')).toBe(true)
+      expect(fs.existsSync('/tmp/config.json')).toBe(true)
     })
 
     it('should read the configuration file if it exists', () => {
       const config = {profile: {firstName: 'John'}}
-      vol.fromJSON({'test.json': JSON.stringify(config)}, '/tmp')
-      const configAPI = new ConfigAPI('/tmp/test.json')
+      vol.fromJSON({'config.json': JSON.stringify(config)}, '/tmp')
+      const configAPI = new ConfigAPI('/tmp')
       configAPI.readConfig()
       expect(configAPI.getConfig()).toEqual(config)
     })
@@ -145,7 +145,7 @@ describe('Config API', () => {
 
   describe('saveProfile', () => {
     it('should save the profile to the configuration file', () => {
-      const configAPI = new ConfigAPI('/tmp/test.json')
+      const configAPI = new ConfigAPI('/tmp')
       configAPI.saveProfile(testProfile)
       expect(configAPI.getConfig().profile).toEqual(testProfile)
     })
@@ -153,7 +153,7 @@ describe('Config API', () => {
 
   describe('updateFavoriteStore', () => {
     it('should update the favorite store ID in the configuration file', () => {
-      const configAPI = new ConfigAPI('/tmp/test.json')
+      const configAPI = new ConfigAPI('/tmp')
       const storeId = '4332'
       configAPI.updateFavoriteStore(storeId)
       expect(configAPI.getConfig().favoriteStoreId).toEqual(storeId)
@@ -162,14 +162,14 @@ describe('Config API', () => {
 
   describe('updateProfile', () => {
     it('should throw an error if the customer profile is not set up', () => {
-      const configAPI = new ConfigAPI('/tmp/test.json')
+      const configAPI = new ConfigAPI('/tmp')
       const updateProfile = () => configAPI.updateProfile({} as Profile)
       expect(updateProfile).toThrowError()
     })
 
     it('should update the customer profile', () => {
-      vol.fromJSON({'test.json': JSON.stringify({profile: testProfile})}, '/tmp')
-      const configAPI = new ConfigAPI('/tmp/test.json')
+      vol.fromJSON({'config.json': JSON.stringify({profile: testProfile})}, '/tmp')
+      const configAPI = new ConfigAPI('/tmp')
       const updates = {firstName: 'John'}
       configAPI.updateProfile(updates)
       expect(configAPI.getProfile()).toEqual({...testProfile, ...updates})
@@ -178,10 +178,10 @@ describe('Config API', () => {
 
   describe('writeConfig', () => {
     it('should write the config to a file', async () => {
-      const configAPI = new ConfigAPI('/tmp/test.json')
+      const configAPI = new ConfigAPI('/tmp')
       configAPI.readConfig()
       configAPI.writeConfig()
-      expect(fs.readFileSync('/tmp/test.json', {encoding: 'utf8'})).toEqual('{}')
+      expect(fs.readFileSync('/tmp/config.json', {encoding: 'utf8'})).toEqual('{}')
     })
   })
 })
