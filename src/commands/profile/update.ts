@@ -1,4 +1,5 @@
-import {Command, Flags, ux} from '@oclif/core'
+import {Command, Flags} from '@oclif/core'
+import ora from 'ora'
 // eslint-disable-next-line import/no-named-as-default
 import prompts from 'prompts'
 
@@ -105,13 +106,14 @@ export default class ProfileUpdate extends Command {
   }
 
   public async run(): Promise<void> {
+    const spinner = ora()
     const {flags} = await this.parse(ProfileUpdate)
     const configAPI = new ConfigAPI(this.config.configDir)
 
     if (Object.keys(flags).length > 0) {
-      ux.action.start('Updating your profile...')
+      spinner.start('Updating your profile...')
       configAPI.updateProfile(flags)
-      ux.action.stop()
+      spinner.stop()
       return
     }
 
@@ -121,8 +123,8 @@ export default class ProfileUpdate extends Command {
       return this.log("You didn't select any fields to update. No changes made.")
     }
 
-    ux.action.start('Updating your profile...')
+    spinner.start('Updating your profile...')
     configAPI.updateProfile(updates)
-    ux.action.stop()
+    spinner.stop()
   }
 }

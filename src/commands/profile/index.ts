@@ -1,5 +1,6 @@
-import {Command, ux} from '@oclif/core'
+import {Command} from '@oclif/core'
 import chalk from 'chalk'
+import ora from 'ora'
 // eslint-disable-next-line import/no-named-as-default
 import prompts from 'prompts'
 
@@ -31,6 +32,7 @@ export default class Profile extends Command {
   }
 
   public async run(): Promise<void> {
+    const spinner = ora()
     const configAPI = new ConfigAPI(this.config.configDir)
     const profile = configAPI.getProfile()
 
@@ -55,9 +57,9 @@ export default class Profile extends Command {
 
       const newProfile = await this.getProfileFromPrompt()
 
-      ux.action.start('Saving your profile...')
+      spinner.start('Saving your profile...')
       configAPI.saveProfile(newProfile)
-      ux.action.stop()
+      spinner.stop()
     }
   }
 }

@@ -1,10 +1,11 @@
-import {Command, Flags, ux} from '@oclif/core'
+import {Command, Flags} from '@oclif/core'
 import {ITrackingResult, Tracking} from 'dominos'
+import ora from 'ora'
 
 import {ConfigAPI} from '../../lib/config.js'
 
 export default class Track extends Command {
-  static description = 'describe the command here'
+  static description = 'Track an existing order'
 
   static examples = ['<%= config.bin %> <%= command.id %>']
 
@@ -13,25 +14,26 @@ export default class Track extends Command {
   }
 
   public async run(): Promise<void> {
+    const spinner = ora()
     const {flags} = await this.parse(Track)
     const tracking = new Tracking()
     let trackingResult: ITrackingResult
 
     if (flags.phone) {
-      ux.action.start('Tracking order with phone number: ' + flags.phone)
+      spinner.start('Tracking order with phone number: ' + flags.phone)
       trackingResult = await tracking.byPhone(flags.phone)
     } else {
       const configAPI = new ConfigAPI(this.config.configDir)
       const profile = configAPI.getProfile()
       if (profile?.phone) {
-        ux.action.start('Tracking order with profile phone number: ' + profile.phone)
+        spinner.start('Tracking order with profile phone number: ' + profile.phone)
         trackingResult = await tracking.byPhone(profile.phone)
       } else {
         return this.log('You either need to first set up your profile or specify a phone number')
       }
     }
 
-    ux.action.stop()
+    spinner.stop()
 
     this.log(`Your order number is ${trackingResult.orderID}
     ${trackingResult.orderDescription}

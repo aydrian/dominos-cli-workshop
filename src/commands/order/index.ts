@@ -1,13 +1,14 @@
 /* eslint-disable no-await-in-loop */
-import {Command, ux} from '@oclif/core'
+import {Command} from '@oclif/core'
 import {AmountsBreakdown, Customer, Order as DominosOrder, Item, Payment} from 'dominos'
+import ora from 'ora'
 // eslint-disable-next-line import/no-named-as-default
 import prompts from 'prompts'
 
 import {ConfigAPI} from '../../lib/config.js'
 
 export default class Order extends Command {
-  static description = 'describe the command here'
+  static description = 'Start a new order'
 
   static examples = ['<%= config.bin %> <%= command.id %>']
 
@@ -167,6 +168,7 @@ export default class Order extends Command {
   }
 
   public async run(): Promise<void> {
+    const spinner = ora()
     const configAPI = new ConfigAPI(this.config.configDir)
 
     // Get the customer from the config file
@@ -179,7 +181,7 @@ export default class Order extends Command {
 
     this.log("Let's order a pizza!")
 
-    ux.action.start('Retreiving your favorite store...')
+    spinner.start('Retreiving your favorite store...')
 
     // Get the favorite store from the config file
     const favoriteStore = await configAPI.getFavoriteStore()
@@ -189,17 +191,17 @@ export default class Order extends Command {
       return
     }
 
-    ux.action.stop()
+    spinner.stop()
 
     // Get order by prompting for items
     const order = await this.getOrderFromPrompt(customer, favoriteStore.info.StoreID.toString())
 
-    ux.action.start('Validating your order...')
+    spinner.start('Validating your order...')
     await order.validate()
 
     await order.price()
     this.printPrice(order.amountsBreakdown)
-    ux.action.stop()
+    spinner.stop()
 
     // Get payment by prompting for credit card info
     const payment = await this.getPaymentFromPrompt(order.amountsBreakdown.customer)
@@ -212,7 +214,7 @@ export default class Order extends Command {
     })
 
     if (response.ready) {
-      ux.action.start('Placing your order...')
+      spinner.start('Placing your order...')
       try {
         await order.place()
       } catch {
@@ -227,7 +229,7 @@ export default class Order extends Command {
         })
       }
 
-      ux.action.stop()
+      spinner.stop()
 
       this.log(`Your order has been placed! Your order number is ${order.orderID}`)
       this.log('You may track your order using `dominos track`')

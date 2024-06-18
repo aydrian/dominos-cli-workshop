@@ -1,5 +1,6 @@
-import {Command, Flags, ux} from '@oclif/core'
+import {Command, Flags} from '@oclif/core'
 import {NearbyStores} from 'dominos'
+import ora from 'ora'
 // eslint-disable-next-line import/no-named-as-default
 import prompts from 'prompts'
 
@@ -31,30 +32,31 @@ export default class Search extends Command {
   }
 
   public async run(): Promise<void> {
+    const spinner = ora()
     const {flags} = await this.parse(Search)
 
     const configAPI = new ConfigAPI(this.config.configDir)
     let nearbyStores: NearbyStores
 
     if (flags.zip) {
-      ux.action.start('Searching nearby stores in zip code: ' + flags.zip)
+      spinner.start('Searching nearby stores in zip code: ' + flags.zip)
       nearbyStores = await new NearbyStores(flags.zip)
     } else {
       const profile = configAPI.getProfile()
       if (profile?.zip) {
-        ux.action.start('Searching nearby stores in your zip code: ' + profile.zip)
+        spinner.start('Searching nearby stores in your zip code: ' + profile.zip)
         nearbyStores = await new NearbyStores(profile.zip)
       } else {
         return this.log('You either need to first set up your profile or specify a zip code')
       }
     }
 
-    ux.action.stop()
+    spinner.stop()
 
     const favoriteStoreId = await this.getFavoriteStoreFromPrompt(nearbyStores)
 
-    ux.action.start('Saving your favorite store...')
+    spinner.start('Saving your favorite store...')
     configAPI.updateFavoriteStore(favoriteStoreId.toString())
-    ux.action.stop()
+    spinner.stop()
   }
 }
