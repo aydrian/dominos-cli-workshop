@@ -108,7 +108,7 @@ export default class ProfileUpdate extends Command {
   public async run(): Promise<void> {
     const spinner = ora()
     const {flags} = await this.parse(ProfileUpdate)
-    const configAPI = new ConfigAPI(this.config.configDir)
+    const configAPI = new ConfigAPI()
 
     if (Object.keys(flags).length > 0) {
       spinner.start('Updating your profile...')

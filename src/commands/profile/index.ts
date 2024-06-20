@@ -33,7 +33,7 @@ export default class Profile extends Command {
 
   public async run(): Promise<void> {
     const spinner = ora()
-    const configAPI = new ConfigAPI(this.config.configDir)
+    const configAPI = new ConfigAPI()
     const profile = configAPI.getProfile()
 
     if (profile) {

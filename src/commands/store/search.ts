@@ -35,7 +35,7 @@ export default class Search extends Command {
     const spinner = ora()
     const {flags} = await this.parse(Search)
 
-    const configAPI = new ConfigAPI(this.config.configDir)
+    const configAPI = new ConfigAPI()
     let nearbyStores: NearbyStores
 
     if (flags.zip) {

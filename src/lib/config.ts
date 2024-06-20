@@ -1,5 +1,5 @@
-import {Address, Customer, Store} from 'dominos'
-import * as fs from 'node:fs'
+import Conf from 'conf'
+import {Address, Customer, Store, StoreIDType} from 'dominos'
 
 export interface Profile {
   address1: string
@@ -13,23 +13,16 @@ export interface Profile {
   zip: string
 }
 
-interface Config {
-  favoriteStoreId?: string
-  profile?: Profile
-}
-
 export class ConfigAPI {
-  private config: Config = {}
-  private configFile = ''
+  private config: Conf
 
   /**
    * Creates a new ConfigAPI instance.
    *
    * @param configDir The directory where the configuration file is located
    */
-  constructor(configDir: string) {
-    this.configFile = `${configDir}/config.json`
-    this.config = this.readConfig()
+  constructor() {
+    this.config = new Conf({projectName: 'dominos-cli'})
   }
 
   getConfig() {
@@ -42,11 +35,11 @@ export class ConfigAPI {
    * @returns The customer's information, or null if no customer is set up
    */
   getCustomer() {
-    if (!this.config.profile) {
+    if (!this.config.get('profile')) {
       return null
     }
 
-    const {email, phone, firstName, lastName, ...addr} = this.config.profile
+    const {email, phone, firstName, lastName, ...addr} = this.config.get('profile') as Profile
     const address = new Address({
       street: `${addr.address1}${addr.address2 ? ` ${addr.address2}` : ''}`,
       city: addr.city,
@@ -63,10 +56,11 @@ export class ConfigAPI {
    * @returns The customer's favorite store, or null if no favorite store is set up
    */
   async getFavoriteStore() {
-    const {favoriteStoreId} = this.config
-    if (!favoriteStoreId) {
+    if (!this.config.get('favoriteStoreId')) {
       return null
     }
+
+    const favoriteStoreId = this.config.get('favoriteStoreId') as StoreIDType
 
     const store = await new Store(favoriteStoreId)
     return store
@@ -78,23 +72,7 @@ export class ConfigAPI {
    * @returns The customer's profile, or null if no profile is set up
    */
   getProfile() {
-    return this.config.profile
-  }
-
-  /**
-   * Reads the configuration file and returns the parsed data.
-   *
-   * If the configuration file does not exist, it will be created with an empty object.
-   *
-   * @returns The configuration data
-   */
-  readConfig() {
-    if (!fs.existsSync(this.configFile)) {
-      fs.writeFileSync(this.configFile, '{}', {encoding: 'utf8'})
-    }
-
-    const config: Config = JSON.parse(fs.readFileSync(this.configFile, {encoding: 'utf8'}))
-    return config
+    return this.config.get('profile') as Profile
   }
 
   /**
@@ -104,8 +82,7 @@ export class ConfigAPI {
    * @returns null
    */
   saveProfile(profile: Profile) {
-    this.config.profile = profile
-    this.writeConfig()
+    this.config.set('profile', profile)
   }
 
   /**
@@ -115,8 +92,7 @@ export class ConfigAPI {
    * @returns null
    */
   updateFavoriteStore(storeId: string) {
-    this.config.favoriteStoreId = storeId
-    this.writeConfig()
+    this.config.set('favoriteStoreId', storeId)
   }
 
   /**
@@ -126,20 +102,9 @@ export class ConfigAPI {
    * @returns null
    */
   updateProfile(profile: Partial<Profile>) {
-    const updatedConfig = {...this.config.profile, ...profile}
+    const currentProfile = this.config.get('profile') as Profile
+    const updatedConfig = {...currentProfile, ...profile}
     // @ts-expect-error remove this as part of Part 7
     this.config.profile = updatedConfig
-    this.writeConfig()
-  }
-
-  /**
-   * Writes the current configuration to the configuration file.
-   *
-   * @param data The configuration data to write to the file
-   * @returns null
-   */
-  writeConfig() {
-    const data = JSON.stringify(this.config)
-    fs.writeFileSync(this.configFile, data, {encoding: 'utf8'})
   }
 }

@@ -169,7 +169,7 @@ export default class Order extends Command {
 
   public async run(): Promise<void> {
     const spinner = ora()
-    const configAPI = new ConfigAPI(this.config.configDir)
+    const configAPI = new ConfigAPI()
 
     // Get the customer from the config file
     const customer = configAPI.getCustomer()

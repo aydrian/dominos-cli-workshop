@@ -23,7 +23,7 @@ export default class Track extends Command {
       spinner.start('Tracking order with phone number: ' + flags.phone)
       trackingResult = await tracking.byPhone(flags.phone)
     } else {
-      const configAPI = new ConfigAPI(this.config.configDir)
+      const configAPI = new ConfigAPI()
       const profile = configAPI.getProfile()
       if (profile?.phone) {
         spinner.start('Tracking order with profile phone number: ' + profile.phone)

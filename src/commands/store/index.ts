@@ -8,7 +8,7 @@ export default class Store extends Command {
   static examples = ['<%= config.bin %> <%= command.id %>']
 
   public async run(): Promise<void> {
-    const configAPI = new ConfigAPI(this.config.configDir)
+    const configAPI = new ConfigAPI()
     const favoriteStore = await configAPI.getFavoriteStore()
 
     if (!favoriteStore) {
